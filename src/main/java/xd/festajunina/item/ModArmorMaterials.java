@@ -12,9 +12,7 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
     WOOL("green_twool", 10, new int[] { 10, 10, 10, 10 }, 10,
-            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GREEN_WOOL)),
-    DOOR("gray_twool", 10, new int[] { 10, 10, 10, 10 }, 10,
-            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GRAY_WOOL));
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GREEN_WOOL));
 
     private final String name;
     private final int durabilityMultiplier;

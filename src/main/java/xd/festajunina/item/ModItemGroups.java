@@ -15,7 +15,6 @@ public class ModItemGroups {
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.clothes"))
                     .icon(() -> new ItemStack(ModItems.GREEN_WOOL_CHESTPLATE)).entries((displayContext, entries) -> {
                         entries.add(ModItems.GREEN_WOOL_CHESTPLATE);
-                        entries.add(ModItems.GRAY_WOOL_CHESTPLATE);
 
                     }).build());
 
