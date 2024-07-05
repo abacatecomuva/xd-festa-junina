@@ -12,6 +12,8 @@ import xd.festajunina.item.custom.GreenWoolArmorItem;
 public class ModItems {
     public static final Item GREEN_WOOL_CHESTPLATE = registerItem("green_tclosed",
             new GreenWoolArmorItem(ModArmorMaterials.WOOL, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
+    public static final Item GRAY_WOOL_CHESTPLATE = registerItem("gray_tclosed",
+            new GreenWoolArmorItem(ModArmorMaterials.DOOR, ArmorItem.Type.CHESTPLATE, new FabricItemSettings()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(XDFestaJunina.MOD_ID, name), item);

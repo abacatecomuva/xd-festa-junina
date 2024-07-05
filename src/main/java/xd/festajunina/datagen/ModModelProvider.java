@@ -20,6 +20,7 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.GREEN_WOOL_CHESTPLATE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GRAY_WOOL_CHESTPLATE, Models.GENERATED);
 
     }
 }
