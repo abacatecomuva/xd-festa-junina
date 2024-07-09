@@ -11,10 +11,35 @@ import xd.festajunina.XDFestaJunina;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    WOOL("green_twool", 10, new int[] { 10, 10, 10, 10 }, 10,
+    CLOTH_RED("red_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.RED_WOOL)),
+    CLOTH_BLUE("blue_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.BLUE_WOOL)),
+    CLOTH_YELLOW("yellow_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.YELLOW_WOOL)),
+    CLOTH_GREEN("green_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
             SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GREEN_WOOL)),
-    CARPET("gray_twool", 10, new int[] { 10, 10, 10, 10 }, 10,
-            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GRAY_WOOL));
+    CLOTH_PURPLE("purple_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.PURPLE_WOOL)),
+
+    CLOTH_JEANS("jeans_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.BLUE_DYE)),
+    CLOTH_BROWN("brown_cloth", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.BROWN_WOOL)),
+
+    TISSUE_RED("red_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.RED_BANNER)),
+    TISSUE_BLUE("blue_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.BLUE_BANNER)),
+    TISSUE_YELLOW("yellow_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.YELLOW_BANNER)),
+    TISSUE_GREEN("green_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.GREEN_BANNER)),
+    TISSUE_PURPLE("purple_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.PURPLE_BANNER)),
+
+    TISSUE_BROWN("brown_tissue", 10, new int[] { 10, 10, 10, 10 }, 10,
+            SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0f, 0f, () -> Ingredient.ofItems(Items.BROWN_BANNER));
 
     private final String name;
     private final int durabilityMultiplier;

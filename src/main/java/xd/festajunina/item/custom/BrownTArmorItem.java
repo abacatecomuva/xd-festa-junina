@@ -13,29 +13,29 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
-import xd.festajunina.item.client.GreenWoolArmorRenderer;
+import xd.festajunina.item.client.BrownTArmorRenderer;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class GreenWoolArmorItem extends ArmorItem implements GeoItem {
+public class BrownTArmorItem extends ArmorItem implements GeoItem {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
 
-    public GreenWoolArmorItem(ArmorMaterial material, Type type, Settings settings) {
+    public BrownTArmorItem(ArmorMaterial material, Type type, Settings settings) {
         super(material, type, settings);
     }
 
     @Override
     public void createRenderer(Consumer<Object> consumer) {
         consumer.accept(new RenderProvider() {
-            private GreenWoolArmorRenderer renderer;
+            private BrownTArmorRenderer renderer;
 
             @Override
             public BipedEntityModel<LivingEntity> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack,
                                                                         EquipmentSlot equipmentSlot, BipedEntityModel<LivingEntity> original) {
                 if (this.renderer == null)
-                    this.renderer = new GreenWoolArmorRenderer();
+                    this.renderer = new BrownTArmorRenderer();
 
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
 

@@ -1,5 +1,21 @@
 {
-  "item.festajunina.green_tclosed": "Green T Closed",
+  "item.festajunina.red_tshirt": "Red T-shirt",
+  "item.festajunina.blue_tshirt": "Blue T-shirt",
+  "item.festajunina.yellow_tshirt": "Yellow T-shirt",
+  "item.festajunina.green_tshirt": "Green T-shirt",
+  "item.festajunina.purple_tshirt": "Purple T-shirt",
 
-  "itemgroup.clothes": "Clothes"
+  "item.festajunina.jeans": "Jeans",
+
+  "item.festajunina.red_dress": "Red Dress",
+  "item.festajunina.blue_dress": "Blue Dress",
+  "item.festajunina.yellow_dress": "Yellow Dress",
+  "item.festajunina.green_dress": "Green Dress",
+  "item.festajunina.purple_dress": "Purple Dress",
+
+  "item.festajunina.jeans_boots": "Boots 1",
+  "item.festajunina.dress_boots": "Boots 2",
+
+
+  "itemgroup.clothes": "xD"
 }

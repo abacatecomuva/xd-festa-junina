@@ -1,5 +1,21 @@
 {
-  "item.festajunina.green_tclosed": "Camisa Xadrez Verde",
+  "item.festajunina.red_tshirt": "Xadrez Vermelha",
+  "item.festajunina.blue_tshirt": "Xadrez Azul",
+  "item.festajunina.yellow_tshirt": "Xadrez Amarela",
+  "item.festajunina.green_tshirt": "Xadrez Verde",
+  "item.festajunina.purple_tshirt": "Xadrez Roxa",
 
-  "itemgroup.clothes": "Roupas de Festa Junina"
+  "item.festajunina.jeans": "Calça Jeans",
+
+  "item.festajunina.red_dress": "Vestido Vermelho",
+  "item.festajunina.blue_dress": "Vestido Azul",
+  "item.festajunina.yellow_dress": "Vestido Amarelo",
+  "item.festajunina.green_dress": "Vestido Verde",
+  "item.festajunina.purple_dress": "Vestido Roxo",
+
+  "item.festajunina.jeans_boots": "Bota 1",
+  "item.festajunina.dress_boots": "Bota 2",
+
+
+  "itemgroup.clothes": "xD"
 }
