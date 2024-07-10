@@ -36,5 +36,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         itemModelGenerator.register(ModItems.BROWN_D_BOOTS, Models.GENERATED);
 
+        itemModelGenerator.register(ModItems.BINGO_CARD, Models.GENERATED);
+
     }
 }

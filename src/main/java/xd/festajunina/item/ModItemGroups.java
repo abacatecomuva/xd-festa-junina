@@ -31,6 +31,8 @@ public class ModItemGroups {
 
                         entries.add(ModItems.BROWN_D_BOOTS);
 
+                        entries.add(ModItems.BINGO_CARD);
+
                     }).build());
 
     public static void registerItemGroups() {
