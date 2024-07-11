@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "festajunina:item/yellow_tshirt"
+  }
+}
