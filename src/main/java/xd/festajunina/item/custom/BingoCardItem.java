@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import xd.festajunina.screen.BingoCardScreenHandler;
 
-public class BingoCardItem extends Item implements NamedScreenHandlerFactory, ImplementedInventory {
+public class BingoCardItem extends Item implements NamedScreenHandlerFactory, ImplementedInventory, NBTHandler {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(54, ItemStack.EMPTY);
 
     public BingoCardItem(Settings settings) {
@@ -26,11 +26,10 @@ public class BingoCardItem extends Item implements NamedScreenHandlerFactory, Im
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        user.openHandledScreen(createScreenHandlerFactory(stack));
+        if (!world.isClient) {
+            user.openHandledScreen(this);
+        }
         return TypedActionResult.success(stack);
-    }
-
-    private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack) {
     }
 
     @Override
@@ -40,7 +39,7 @@ public class BingoCardItem extends Item implements NamedScreenHandlerFactory, Im
 
     @Override
     public Text getDisplayName() {
-        return null;
+        return Text.translatable(this.getTranslationKey());
     }
 
     @Nullable
@@ -51,13 +50,11 @@ public class BingoCardItem extends Item implements NamedScreenHandlerFactory, Im
 
     @Override
     public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         return nbt;
     }
