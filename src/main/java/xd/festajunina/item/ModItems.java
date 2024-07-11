@@ -43,6 +43,7 @@ public class ModItems {
     public static final Item BINGO_CARD = registerItem("bingo_card",
             new BingoCardItem(new FabricItemSettings().maxCount(1)));
 
+
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(XDFestaJunina.MOD_ID, name), item);
 

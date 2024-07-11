@@ -33,6 +33,7 @@ public class ModItemGroups {
 
                         entries.add(ModItems.BINGO_CARD);
 
+
                     }).build());
 
     public static void registerItemGroups() {
