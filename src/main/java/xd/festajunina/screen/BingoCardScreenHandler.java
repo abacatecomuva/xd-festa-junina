@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import xd.festajunina.XDFestaJunina;
 
 public class BingoCardScreenHandler extends ScreenHandler {
@@ -22,22 +23,11 @@ public class BingoCardScreenHandler extends ScreenHandler {
         checkSize(inventory, 9);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
-
-        int i;
-        int l;
-        for (i = 0; i < 6; ++i) {
-            for (l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inventory, l + i * 9, 8 + l * 18, 17 + i * 18));
-            }
-        }
-
-        for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
+        generateSlots();
     }
 
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
+        public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot != null && slot.hasStack()) {
@@ -64,5 +54,27 @@ public class BingoCardScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
+    }
+
+    void generateSlots() {
+        int i = 0;
+
+        // Bingo Card Slots
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (i == 12) {
+                    i++;
+                    continue;
+                }
+                this.addSlot(new Slot(inventory, i++, 8 + x * 18, 24 + y * 18));
+            }
+        }
+
+        // Additional Slots
+        for (int y = 0; y < 6; y++) {
+            for (int x = 0; x < 4; x++) {
+                this.addSlot(new Slot(inventory, i++, 98 + x * 18, 6 + y * 18));
+            }
+        }
     }
 }

@@ -130,7 +130,5 @@ public interface ImplementedInventory extends Inventory {
         return true;
     }
 
-    void readNbt(NbtCompound nbt);
 
-    NbtCompound writeNbt(NbtCompound nbt);
 }
