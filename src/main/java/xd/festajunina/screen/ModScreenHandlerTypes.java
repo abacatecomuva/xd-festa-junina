@@ -7,8 +7,8 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import xd.festajunina.XDFestaJunina;
 
-public class ModScreenHandlers {
-    public static final ScreenHandlerType<BingoCardScreenHandler> BINGO_CARD_SCREEN_HANDLER =
+public class ModScreenHandlerTypes {
+    public static final ScreenHandlerType<BingoCardScreenHandler> BINGO_CARD =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(XDFestaJunina.MOD_ID, "bingo_card"),
                     new ExtendedScreenHandlerType<>(BingoCardScreenHandler::new));
 
