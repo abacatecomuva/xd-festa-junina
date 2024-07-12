@@ -15,7 +15,14 @@ import xd.festajunina.screen.ModScreenHandlers;
 public class XDFestaJunina implements ModInitializer {
 	public static final String MOD_ID = "festajunina";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ScreenHandlerType<BingoCardScreenHandler> BINGO_CARD_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier("bingo_card"), BingoCardScreenHandler::new);
+	public static final ScreenHandlerType<BingoCardScreenHandler> BINGO_CARD_SCREEN_HANDLER;
+
+	static {
+		BINGO_CARD_SCREEN_HANDLER = ScreenHandlerRegistry.registerExtended(
+				new Identifier(MOD_ID, "bingo_card"),
+				BingoCardScreenHandler::new
+		);
+	}
 
 	@Override
 	public void onInitialize() {

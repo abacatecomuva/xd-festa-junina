@@ -2,27 +2,28 @@ package xd.festajunina.screen;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import xd.festajunina.XDFestaJunina;
+import xd.festajunina.item.custom.BingoCardItem;
 
 public class BingoCardScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
+    private final SimpleInventory inventory;
+    private final ItemStack stack;
+    private final PlayerInventory playerInventory;
 
-    public BingoCardScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(54));
+    public BingoCardScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(syncId, playerInventory, buf.readItemStack());
     }
 
-    public BingoCardScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public BingoCardScreenHandler(int syncId, PlayerInventory playerInventory, ItemStack stack) {
         super(XDFestaJunina.BINGO_CARD_SCREEN_HANDLER, syncId);
-        checkSize(inventory, 9);
-        this.inventory = inventory;
-        inventory.onOpen(playerInventory.player);
+        this.inventory = BingoCardItem.getInventory(stack);
+        this.playerInventory = playerInventory;
+        this.stack = stack;
         generateSlots();
     }
 
@@ -56,6 +57,12 @@ public class BingoCardScreenHandler extends ScreenHandler {
         return this.inventory.canPlayerUse(player);
     }
 
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
+        BingoCardItem.saveInventory(stack, inventory);
+    }
+
     void generateSlots() {
         int i = 0;
 
@@ -75,6 +82,11 @@ public class BingoCardScreenHandler extends ScreenHandler {
             for (int x = 0; x < 4; x++) {
                 this.addSlot(new Slot(inventory, i++, 98 + x * 18, 6 + y * 18));
             }
+        }
+
+        // Hotbar Slots
+        for (int x = 0; x < 9; x++) {
+            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 142));
         }
     }
 }
