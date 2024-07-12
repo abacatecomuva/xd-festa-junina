@@ -8,11 +8,13 @@ import net.minecraft.util.Identifier;
 import xd.festajunina.XDFestaJunina;
 
 public class BingoCardScreen extends HandledScreen<BingoCardScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(XDFestaJunina.MOD_ID, "textures/gui/bingo_card_gui.png");
+    private static final Identifier TEXTURE = new Identifier(XDFestaJunina.MOD_ID, "textures/gui/bingo_card_gui_v2.png");
 
     public BingoCardScreen(BingoCardScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.backgroundHeight = 120;
+        this.backgroundHeight = 222;
+        this.playerInventoryTitleX = 8;
+        this.playerInventoryTitleY = 130;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class BingoCardScreen extends HandledScreen<BingoCardScreenHandler> {
 
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        context.drawText(this.textRenderer, this.playerInventoryTitle, this.playerInventoryTitleX, this.playerInventoryTitleY, 4210752, false);
     }
 
     @Override

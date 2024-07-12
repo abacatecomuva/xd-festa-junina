@@ -73,20 +73,20 @@ public class BingoCardScreenHandler extends ScreenHandler {
                     i++;
                     continue;
                 }
-                this.addSlot(new Slot(inventory, i++, 8 + x * 18, 24 + y * 18));
+                this.addSlot(new Slot(inventory, i++, 44 + x * 18, 32 + y * 18));
             }
         }
 
-        // Additional Slots
-        for (int y = 0; y < 6; y++) {
-            for (int x = 0; x < 4; x++) {
-                this.addSlot(new Slot(inventory, i++, 98 + x * 18, 6 + y * 18));
+        // Player Inventory Slots
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 140 + y * 18));
             }
         }
 
         // Hotbar Slots
         for (int x = 0; x < 9; x++) {
-            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 142));
+            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 198));
         }
     }
 }
