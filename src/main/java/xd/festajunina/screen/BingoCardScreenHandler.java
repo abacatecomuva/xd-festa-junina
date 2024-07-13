@@ -7,16 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import xd.festajunina.XDFestaJunina;
 import xd.festajunina.item.custom.BingoCardItem;
 
 public class BingoCardScreenHandler extends ScreenHandler {
-
-    private static final int BACKPACK_START = 0;
-    private static final int BACKPACK_END = 54;
-    private static final int INVENTORY_START = 54;
-    private static final int INVENTORY_END = 81;
-    private static final int HOTBAR_START = 81;
-    private static final int HOTBAR_END = 90;
 
     private final SimpleInventory inventory;
     public final ItemStack bingoCardStack;
@@ -35,23 +29,30 @@ public class BingoCardScreenHandler extends ScreenHandler {
             this.inventory = new SimpleInventory(54);
         }
 
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(this.inventory, j + i * 9, 8 + j * 18, 6 + i * 18));
+        // Bingo Card Slots
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 5; x++) {
+                if (x == 2 && y == 2) {
+                    continue;
+                }
+                this.addSlot(new Slot(this.inventory, x + y * 5, 44 + x * 18, 32 + y * 18));
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 134 + i * 18));
+        // Player Inventory Slots
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 140 + y * 18));
             }
         }
 
-        for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 192));
+        // Hotbar Slots
+        for (int x = 0; x < 9; x++) {
+            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 198));
         }
-        inventory.onOpen(playerInventory.player);
-        inventory.addListener(sender -> {
+
+        this.inventory.onOpen(playerInventory.player);
+        this.inventory.addListener(sender -> {
             if (this.inventory.isEmpty()) {
                 this.bingoCardStack.removeSubNbt(BingoCardItem.STACKS);
             } else {
@@ -70,10 +71,10 @@ public class BingoCardScreenHandler extends ScreenHandler {
             ItemStack stackInSlot = slot.getStack();
             originalStack = stackInSlot.copy();
             if (slotIndex >= BACKPACK_START && slotIndex < BACKPACK_END) {
-                if (!this.insertItem(stackInSlot, INVENTORY_START, HOTBAR_END, true)) {
+                if (!this.insertItem(stackInSlot, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(stackInSlot, BACKPACK_START, BACKPACK_END, false)) {
+            } else if (!this.insertItem(stackInSlot, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -90,6 +91,8 @@ public class BingoCardScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return player.getInventory().containsAny(stack -> stack == this.bingoCardStack);
+        return this.inventory.canPlayerUse(player) &&
+                player.getInventory().containsAny(stack ->
+                        stack == this.bingoCardStack);
     }
 }

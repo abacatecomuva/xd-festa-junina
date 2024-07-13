@@ -74,7 +74,9 @@ public class BingoCardItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stackInHand = user.getStackInHand(hand);
-        user.openHandledScreen(createExtendedScreenHandlerFactory(stackInHand));
+        if (!world.isClient()) {
+            user.openHandledScreen(createExtendedScreenHandlerFactory(stackInHand));
+        }
         return TypedActionResult.success(stackInHand);
     }
 
@@ -100,5 +102,32 @@ public class BingoCardItem extends Item {
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
         return Optional.ofNullable(BingoCardItem.readStacksFromNbt(stack)).map(stacks -> new BingoCardTooltipData(Arrays.asList(stacks)));
+    }
+
+    static void fillBingoCard(SimpleInventory inventory) {
+        Set<Integer> numbers = new HashSet<>();
+        int slot = 0;
+        for (int row = 0; row < 5; row++) {
+            for (int column = 0; column < 5; column++) {
+                int number = 0;
+                while (number == 0 || numbers.contains(number)) {
+                    number = getRandomNumberByColumn(column);
+                }
+                numbers.add(number);
+                inventory.setStack(slot, ModItems.BINGO_NUMBER.getDefaultStack());
+                BingoNumberItem.setNumber(inventory.getStack(slot), number);
+                slot++;
+            }
+        }
+    }
+
+    static Integer getRandomNumberByColumn(int column) {
+        int min = column * 15 + 1;
+        int max = (column + 1) * 15;
+        return getRandomNumber(min, max);
+    }
+
+    static Integer getRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 }
