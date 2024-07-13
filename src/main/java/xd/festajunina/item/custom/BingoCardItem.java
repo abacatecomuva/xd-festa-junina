@@ -1,16 +1,16 @@
 package xd.festajunina.item.custom;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -19,67 +19,98 @@ import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import xd.festajunina.item.ModItems;
+import xd.festajunina.item.tooltip.BingoCardTooltipData;
 import xd.festajunina.screen.BingoCardScreenHandler;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class BingoCardItem extends Item {
+    public static final String STACKS = "Stacks";
 
     public BingoCardItem(Settings settings) {
         super(settings);
     }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-        if (!world.isClient) {
-            user.openHandledScreen(createScreenHandlerFactory(stack));
-        }
-        return TypedActionResult.success(stack);
-    }
-
-    private NamedScreenHandlerFactory createScreenHandlerFactory(ItemStack stack) {
+    private static ExtendedScreenHandlerFactory createExtendedScreenHandlerFactory(ItemStack bingoCardStack) {
         return new ExtendedScreenHandlerFactory() {
             @Override
             public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-                buf.writeItemStack(stack);
+                buf.writeItemStack(bingoCardStack);
+            }
+
+            @Override
+            public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+                return new BingoCardScreenHandler(syncId, playerInventory, bingoCardStack);
             }
 
             @Override
             public Text getDisplayName() {
-                return Text.translatable(getTranslationKey());
-            }
-
-            @Override
-            public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-                return new BingoCardScreenHandler(syncId, inv, stack);
+                return Text.empty();
             }
         };
     }
 
-    public static SimpleInventory getInventory(ItemStack stack) {
-        SimpleInventory inventory = new SimpleInventory(54);
-        NbtCompound nbt = stack.getOrCreateNbt();
-        Inventories.readNbt(nbt, inventory.stacks);
-        handleEmptyInventory(inventory);
-        return inventory;
+    public static void writeStacksToNbt(ItemStack bingoCardStack, Iterable<ItemStack> stacks) {
+        NbtList nbtList = new NbtList();
+        stacks.forEach(stack -> nbtList.add(stack.writeNbt(new NbtCompound())));
+        bingoCardStack.getOrCreateNbt().put(STACKS, nbtList);
     }
 
-    public static void saveInventory(ItemStack stack, SimpleInventory inventory) {
-        NbtCompound nbt = stack.getOrCreateNbt();
-        Inventories.writeNbt(nbt, inventory.stacks);
-    }
-
-    static void handleEmptyInventory(SimpleInventory inventory) {
-        boolean isEmpty = inventory.stacks.stream().allMatch(ItemStack::isEmpty);
-        if (isEmpty) {
-            fillBingoCard(inventory);
+    @Nullable
+    public static ItemStack[] readStacksFromNbt(ItemStack bingoCardStack) {
+        if (bingoCardStack.getNbt() == null || !bingoCardStack.getNbt().contains(STACKS, NbtElement.LIST_TYPE)) return null;
+        NbtList nbtList = bingoCardStack.getNbt().getList(STACKS, NbtElement.COMPOUND_TYPE);
+        ItemStack[] stacks = new ItemStack[25];
+        if (nbtList.isEmpty()) {
+            fillBingoCard(stacks);
         }
+        for (int i = 0; i < nbtList.size(); i++) {
+            NbtCompound stackCompound = nbtList.getCompound(i);
+            ItemStack itemStack = ItemStack.fromNbt(stackCompound);
+            stacks[i] = itemStack;
+        }
+        return stacks;
     }
 
-    static void fillBingoCard(SimpleInventory inventory) {
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stackInHand = user.getStackInHand(hand);
+        if (!world.isClient()) {
+            user.openHandledScreen(createExtendedScreenHandlerFactory(stackInHand));
+        }
+        return TypedActionResult.success(stackInHand);
+    }
+
+    @Override
+    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+        if (player.currentScreenHandler instanceof BingoCardScreenHandler bingoCardScreenHandler &&
+                bingoCardScreenHandler.bingoCardStack == stack) return true;
+        if (clickType != ClickType.RIGHT) return false;
+        if (!player.getWorld().isClient()) {
+            player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
+            player.openHandledScreen(createExtendedScreenHandlerFactory(stack));
+            player.currentScreenHandler.setCursorStack(otherStack);
+            player.currentScreenHandler.syncState();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean canBeNested() {
+        return false;
+    }
+
+    @Override
+    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+        return Optional.ofNullable(BingoCardItem.readStacksFromNbt(stack)).map(stacks -> new BingoCardTooltipData(Arrays.asList(stacks)));
+    }
+
+    static void fillBingoCard(ItemStack[] stacks) {
         Set<Integer> numbers = new HashSet<>();
         int slot = 0;
         for (int row = 0; row < 5; row++) {
@@ -89,8 +120,8 @@ public class BingoCardItem extends Item {
                     number = getRandomNumberByColumn(column);
                 }
                 numbers.add(number);
-                inventory.setStack(slot, ModItems.BINGO_NUMBER.getDefaultStack());
-                BingoNumberItem.setNumber(inventory.getStack(slot), number);
+                stacks[slot] = ModItems.BINGO_NUMBER.getDefaultStack();
+                BingoNumberItem.setNumber(stacks[slot], number);
                 slot++;
             }
         }
