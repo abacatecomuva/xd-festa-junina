@@ -17,8 +17,8 @@ public class BingoCardTooltipComponent implements TooltipComponent {
     private static final int WIDTH_PER_COLUMN = 18;
     private static final int HEIGHT_PER_ROW = 18;
     private final List<ItemStack> inventory;
-    private static final int BACKGROUND_WIDTH = 176;
-    private static final int BACKGROUND_HEIGHT = 122;
+    private static final int BACKGROUND_WIDTH = 122;
+    private static final int BACKGROUND_HEIGHT = 137;
 
     public BingoCardTooltipComponent(BingoCardTooltipData backpackContents) {
         this.inventory = backpackContents.inventory();
@@ -39,10 +39,10 @@ public class BingoCardTooltipComponent implements TooltipComponent {
         context.drawTexture(BACKGROUND_TEXTURE, x, y, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
         int slotIndex = 0;
 
-        for (int rowIndex = 0; rowIndex < 6; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < 9; columnIndex++) {
-                int slotX = x + columnIndex * WIDTH_PER_COLUMN + 7;
-                int slotY = y + rowIndex * HEIGHT_PER_ROW + 5;
+        for (int rowIndex = 0; rowIndex < 5; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < 5; columnIndex++) {
+                int slotX = x + columnIndex * WIDTH_PER_COLUMN + 16;
+                int slotY = y + rowIndex * HEIGHT_PER_ROW + 31;
                 this.drawSlot(slotX, slotY, slotIndex++, context, textRenderer);
             }
         }

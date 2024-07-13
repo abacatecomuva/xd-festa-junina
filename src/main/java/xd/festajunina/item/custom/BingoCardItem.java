@@ -20,14 +20,17 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import xd.festajunina.item.ModItems;
 import xd.festajunina.item.tooltip.BingoCardTooltipData;
 import xd.festajunina.screen.BingoCardScreenHandler;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class BingoCardItem extends Item {
-    public static final String STACKS = "stacks";
+    public static final String STACKS = "Stacks";
 
     public BingoCardItem(Settings settings) {
         super(settings);
@@ -62,7 +65,10 @@ public class BingoCardItem extends Item {
     public static ItemStack[] readStacksFromNbt(ItemStack bingoCardStack) {
         if (bingoCardStack.getNbt() == null || !bingoCardStack.getNbt().contains(STACKS, NbtElement.LIST_TYPE)) return null;
         NbtList nbtList = bingoCardStack.getNbt().getList(STACKS, NbtElement.COMPOUND_TYPE);
-        ItemStack[] stacks = new ItemStack[nbtList.size()];
+        ItemStack[] stacks = new ItemStack[25];
+        if (nbtList.isEmpty()) {
+            fillBingoCard(stacks);
+        }
         for (int i = 0; i < nbtList.size(); i++) {
             NbtCompound stackCompound = nbtList.getCompound(i);
             ItemStack itemStack = ItemStack.fromNbt(stackCompound);
@@ -104,7 +110,7 @@ public class BingoCardItem extends Item {
         return Optional.ofNullable(BingoCardItem.readStacksFromNbt(stack)).map(stacks -> new BingoCardTooltipData(Arrays.asList(stacks)));
     }
 
-    static void fillBingoCard(SimpleInventory inventory) {
+    static void fillBingoCard(ItemStack[] stacks) {
         Set<Integer> numbers = new HashSet<>();
         int slot = 0;
         for (int row = 0; row < 5; row++) {
@@ -114,8 +120,8 @@ public class BingoCardItem extends Item {
                     number = getRandomNumberByColumn(column);
                 }
                 numbers.add(number);
-                inventory.setStack(slot, ModItems.BINGO_NUMBER.getDefaultStack());
-                BingoNumberItem.setNumber(inventory.getStack(slot), number);
+                stacks[slot] = ModItems.BINGO_NUMBER.getDefaultStack();
+                BingoNumberItem.setNumber(stacks[slot], number);
                 slot++;
             }
         }

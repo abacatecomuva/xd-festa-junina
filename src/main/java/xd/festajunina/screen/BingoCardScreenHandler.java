@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import xd.festajunina.XDFestaJunina;
 import xd.festajunina.item.custom.BingoCardItem;
 
 public class BingoCardScreenHandler extends ScreenHandler {
@@ -26,7 +25,7 @@ public class BingoCardScreenHandler extends ScreenHandler {
         if (stacks != null) {
             this.inventory = new SimpleInventory(stacks);
         } else {
-            this.inventory = new SimpleInventory(54);
+            this.inventory = new SimpleInventory(25);
         }
 
         // Bingo Card Slots
@@ -70,7 +69,7 @@ public class BingoCardScreenHandler extends ScreenHandler {
         if (slot.hasStack()) {
             ItemStack stackInSlot = slot.getStack();
             originalStack = stackInSlot.copy();
-            if (slotIndex >= BACKPACK_START && slotIndex < BACKPACK_END) {
+            if (slotIndex >= 0 && slotIndex < this.inventory.size()) {
                 if (!this.insertItem(stackInSlot, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
@@ -92,7 +91,6 @@ public class BingoCardScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player) &&
-                player.getInventory().containsAny(stack ->
-                        stack == this.bingoCardStack);
+                player.getInventory().containsAny(stack -> stack == this.bingoCardStack);
     }
 }

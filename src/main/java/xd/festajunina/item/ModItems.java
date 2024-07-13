@@ -8,6 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import xd.festajunina.XDFestaJunina;
 import xd.festajunina.item.custom.BingoCardItem;
+import xd.festajunina.item.custom.BingoNumberItem;
 import xd.festajunina.item.custom.CustomDyedArmorItem;
 import xd.festajunina.item.custom.JeansArmorItem;
 
