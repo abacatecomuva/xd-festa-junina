@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BingoCardScreen extends HandledScreen<BingoCardScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(XDFestaJunina.MOD_ID, "textures/gui/bingo_card_gui_v2.png");
+    private static final Identifier TEXTURE = new Identifier(XDFestaJunina.MOD_ID, "textures/gui/bingo_card_gui.png");
     private static final int GRID_ROWS = 5;
     private static final int GRID_COLS = 5;
 
@@ -71,7 +71,7 @@ public class BingoCardScreen extends HandledScreen<BingoCardScreenHandler> {
                 int x = startX + col * (BingoNumberButton.BUTTON_SIZE + 2);
                 int y = startY + row * (BingoNumberButton.BUTTON_SIZE + 2);
 
-                BingoNumberButton button = createButton(43 + x, 31 + y, number, isMarked, counter);
+                BingoNumberButton button = createButton(25 + x, 31 + y, number, isMarked, counter);
                 cardItems.put(counter, item);
                 this.addDrawableChild(button);
                 counter++;
