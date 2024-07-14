@@ -5,17 +5,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -23,6 +20,7 @@ import xd.festajunina.item.ModItems;
 import xd.festajunina.screen.BingoCardScreenHandler;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class BingoCardItem extends Item {
@@ -60,7 +58,7 @@ public class BingoCardItem extends Item {
     }
 
     public static SimpleInventory getInventory(ItemStack stack) {
-        SimpleInventory inventory = new SimpleInventory(54);
+        SimpleInventory inventory = new SimpleInventory(24);
         NbtCompound nbt = stack.getOrCreateNbt();
         Inventories.readNbt(nbt, inventory.stacks);
         handleEmptyInventory(inventory);
@@ -84,9 +82,10 @@ public class BingoCardItem extends Item {
         int slot = 0;
         for (int row = 0; row < 5; row++) {
             for (int column = 0; column < 5; column++) {
+                if (slot == 24) continue;
                 int number = 0;
                 while (number == 0 || numbers.contains(number)) {
-                    number = getRandomNumberByColumn(column);
+                    number = getRandomNumberByRow(row);
                 }
                 numbers.add(number);
                 inventory.setStack(slot, ModItems.BINGO_NUMBER.getDefaultStack());
@@ -96,13 +95,13 @@ public class BingoCardItem extends Item {
         }
     }
 
-    static Integer getRandomNumberByColumn(int column) {
+    static Integer getRandomNumberByRow(int column) {
         int min = column * 15 + 1;
         int max = (column + 1) * 15;
         return getRandomNumber(min, max);
     }
 
     static Integer getRandomNumber(int min, int max) {
-        return (int) (Math.random() * (max - min + 1) + min);
+        return new Random().nextInt(max - min + 1) + min;
     }
 }
