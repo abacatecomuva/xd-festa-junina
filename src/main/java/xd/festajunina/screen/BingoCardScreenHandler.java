@@ -22,7 +22,7 @@ public class BingoCardScreenHandler extends ScreenHandler {
     }
 
     public BingoCardScreenHandler(int syncId, PlayerInventory playerInventory, ItemStack stack) {
-        super(ModScreenHandlersTypes.BINGO_CARD, syncId);
+        super(XDFestaJunina.BINGO_CARD_SCREEN_HANDLER, syncId);
         this.inventory = BingoCardItem.getInventory(stack);
         this.playerInventory = playerInventory;
         this.stack = stack;

@@ -8,12 +8,12 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import xd.festajunina.item.ModItems;
 import xd.festajunina.item.renderer.BingoNumberItemRenderer;
 import xd.festajunina.screen.BingoCardScreen;
-import xd.festajunina.screen.ModScreenHandlersTypes;
 
+@Environment(EnvType.CLIENT)
 public class XDFestaJuninaClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        HandledScreens.register(ModScreenHandlersTypes.BINGO_CARD, BingoCardScreen::new);
+        HandledScreens.register(XDFestaJunina.BINGO_CARD_SCREEN_HANDLER, BingoCardScreen::new);
         BuiltinItemRendererRegistry.INSTANCE.register(ModItems.BINGO_NUMBER, new BingoNumberItemRenderer());
     }
 }
